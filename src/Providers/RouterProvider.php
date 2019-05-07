@@ -3,6 +3,7 @@
 namespace OneMustCode\ApiFramework\Providers;
 
 use OneMustCode\ApiFramework\Router\Router;
+use OneMustCode\ApiFramework\Router\RouterInterface;
 
 class RouterProvider extends AbstractProvider
 {
@@ -19,6 +20,7 @@ class RouterProvider extends AbstractProvider
             $this->app->getAppPath('routes.php')
         );
 
-        $router->match();
+        $this->app->bind('router', $router);
+        $this->app->bind(RouterInterface::class, $router);
     }
 }

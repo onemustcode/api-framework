@@ -7,6 +7,7 @@ use OneMustCode\ApiFramework\Config\ConfigInterface;
 use OneMustCode\ApiFramework\Providers\ConfigProvider;
 use OneMustCode\ApiFramework\Providers\RequestProvider;
 use OneMustCode\ApiFramework\Providers\RouterProvider;
+use OneMustCode\ApiFramework\Router\RouterInterface;
 
 class Application
 {
@@ -159,5 +160,7 @@ class Application
         $this->loadDefaultProviders();
 
         $this->loadCustomProviders();
+
+        $this->get('router')->match();
     }
 }
