@@ -6,6 +6,7 @@ use OneMustCode\ApiFramework\Application;
 use OneMustCode\ApiFramework\Exceptions\LogicException;
 use OneMustCode\ApiFramework\Exceptions\RouteNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
@@ -100,7 +101,11 @@ class Router implements RouterInterface
                 }
             }
 
-            $this->app->call([$match['controller'], $match['method']], $parameters);
+            $response = $this->app->call([$match['controller'], $match['method']], $parameters);
+
+            if ($response instanceof Response) {
+                $response->send();
+            }
         } catch (\Symfony\Component\Routing\Exception\RouteNotFoundException $e) {
             throw new RouteNotFoundException(
                 $e->getMessage()
