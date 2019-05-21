@@ -16,7 +16,7 @@ class ConfigProvider extends AbstractProvider
         $this->loadDotenv();
 
         $config = new Config(
-            require_once $this->app->getAppPath('config.php')
+            require $this->app->getAppPath('config.php')
         );
 
         $this->app->bind(ConfigInterface::class, $config);
