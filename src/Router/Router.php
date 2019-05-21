@@ -4,13 +4,17 @@ namespace OneMustCode\ApiFramework\Router;
 
 use OneMustCode\ApiFramework\Application;
 use OneMustCode\ApiFramework\Exceptions\LogicException;
-use OneMustCode\ApiFramework\Exceptions\RouteNotFoundException;
+use OneMustCode\ApiFramework\Router\Exceptions\RouteNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+use Symfony\Component\Routing\Exception\NoConfigurationException;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
+use Exception;
 
 class Router implements RouterInterface
 {
@@ -106,11 +110,11 @@ class Router implements RouterInterface
             if ($response instanceof Response) {
                 $response->send();
             }
-        } catch (\Symfony\Component\Routing\Exception\RouteNotFoundException $e) {
+        } catch (NoConfigurationException | ResourceNotFoundException | MethodNotAllowedException $e) {
             throw new RouteNotFoundException(
                 $e->getMessage()
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new LogicException($e->getMessage());
         }
     }

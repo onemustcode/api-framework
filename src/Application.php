@@ -21,11 +21,7 @@ class Application
     protected $basePath;
 
     /** @var array */
-    protected $defaultProviders = [
-        RequestProvider::class,
-        ConfigProvider::class,
-        RouterProvider::class,
-    ];
+    protected $defaultProviders = [];
 
     /** @var array */
     protected $customProviders = [];
@@ -128,7 +124,7 @@ class Application
      */
     private function loadCustomProviders(): void
     {
-        $this->customProviders = $this->get(ConfigInterface::class)->get('providers');
+        $this->customProviders = (require $this->getAppPath('config.php'))['providers'];
 
         foreach ($this->customProviders as $provider) {
             $this->loadProvider($provider);
